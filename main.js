@@ -1,19 +1,49 @@
-img="";
-
-function preload(){
-    img=loadImage('dog_cat.jpg')
+img = "";
+status = "";
+function preload() {
+    img = loadImage('dog_cat.jpg')
 }
-function setup(){
-    canvas=createCanvas(640,420);
+function modelloaded() {
+    console.log("modelloaded");
+    status = true;
+    objectDetector.detect(img, gotResult)
+}
+function gotResult(error, result) {
+    if (error) {
+        console.log(error);
+    }
+    console.log(result)
+}
+function setup() {
+    canvas = createCanvas(640, 420);
     canvas.center();
+
+    objectDetector = ml5.objectDetector("cocossd", modelloaded);
+    document.getElementById("status").innerHTML = "Status : object Detector ";
 }
-function draw(){
-    image(img,0,0,640,420);
+function draw() {
+    image(img, 0, 0, 640, 420);
     fill("#FF0000");
-    text("Dog",45,75);
+    text("Dog", 45, 75);
     noFill();
     stroke("yellow");
     strokeWeight("10px")
-    rect(30,60,450,350)
+    rect(30, 60, 450, 350)
+
+    fill("#FF0000");
+    text("cat", 320, 120)
+    noFill()
+    stroke("yellow");
+    strokeWeight("10px")
+    rect(300, 90, 270, 320);
+    
+    fill("#FF0000");
+    text("bowl",300 , 350)
+    noFill()
+    stroke("yellow");
+    strokeWeight("10px")
+    rect(270, 300, 150, 120);
+    
+
 }
 
