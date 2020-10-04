@@ -1,5 +1,6 @@
 img = "";
 status = "";
+object=[];
 function preload() {
     img = loadImage('dog_cat.jpg')
 }
@@ -8,11 +9,12 @@ function modelloaded() {
     status = true;
     objectDetector.detect(img, gotResult)
 }
-function gotResult(error, result) {
+function gotResult(error, results) {
     if (error) {
         console.log(error);
     }
-    console.log(result)
+    console.log(results)
+    object =results; 
 }
 function setup() {
     canvas = createCanvas(640, 420);
@@ -22,28 +24,18 @@ function setup() {
     document.getElementById("status").innerHTML = "Status : object Detector ";
 }
 function draw() {
-    image(img, 0, 0, 640, 420);
-    fill("#FF0000");
-    text("Dog", 45, 75);
-    noFill();
-    stroke("yellow");
-    strokeWeight("10px")
-    rect(30, 60, 450, 350)
-
-    fill("#FF0000");
-    text("cat", 320, 120)
-    noFill()
-    stroke("yellow");
-    strokeWeight("10px")
-    rect(300, 90, 270, 320);
-    
-    fill("#FF0000");
-    text("bowl",300 , 350)
-    noFill()
-    stroke("yellow");
-    strokeWeight("10px")
-    rect(270, 300, 150, 120);
-    
-
+    image(img,0,0,640,424);
+    if(status !=""){
+        for(i = 0;i<object.length;i++){
+            document.getElementById("status").innerHTML = "Status : object Detector ";
+            
+            fill('#FF0000')
+            percent = floor(object[i].confidence *100)
+            text(object[i].label +""+percent +"%",object[i].x,object[i].y);
+            noFill();
+            stroke('#FF0000');
+            rect(object[i].x -90,object[i].y -20,object[i].width,object[i].height)
+        }
+    }
 }
 
